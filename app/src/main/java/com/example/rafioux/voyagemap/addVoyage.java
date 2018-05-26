@@ -22,27 +22,12 @@ public class addVoyage extends Activity {
     protected void add(View v){
         mVoyage = (EditText) findViewById(R.id.nom_voyage);
 
-
         VoyageBDD voyageBdd = new VoyageBDD(this);
-
         Voyage voyage = new Voyage(mVoyage.getText().toString(),  "c'est jolie");
 
         voyageBdd.open();
         voyageBdd.insertVoyage(voyage);
-
-
-        //on test la présence dans la base
-       // Voyage voyageFromBdd = voyageBdd.getVoyageWithNom(mVoyage.getText().toString());
-
-        //Toast.makeText(this, voyageFromBdd.toString(), Toast.LENGTH_LONG).show();
-
         voyageBdd.close();
-
-        LieuxBDD lieuxBdd = new LieuxBDD(this);
-        Lieux lieux = new Lieux("1","0","0","1");
-        lieuxBdd.open();
-        lieuxBdd.insertLieux(lieux);
-        lieuxBdd.close();
 
         this.finish();
     }

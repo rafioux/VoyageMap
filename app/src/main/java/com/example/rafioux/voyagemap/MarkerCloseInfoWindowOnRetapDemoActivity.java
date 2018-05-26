@@ -42,102 +42,52 @@ public class MarkerCloseInfoWindowOnRetapDemoActivity extends AppCompatActivity 
         OnMapClickListener,
         OnMapAndViewReadyListener.OnGlobalLayoutAndMapReadyListener {
 
-    ArrayList<Lieux> test;
-    //private static final LatLng BRISBANE = new LatLng(-27.47093, 153.0235);
-    //private static final LatLng MELBOURNE = new LatLng(-37.81319, 144.96298);
-    //private static final LatLng SYDNEY = new LatLng(-33.87365, 151.20689);
-    //private static final LatLng ADELAIDE = new LatLng(-34.92873, 138.59995);
-    //private static final LatLng PERTH = new LatLng(-31.952854, 115.857342);
-    String i;
-    Double lat;
-    Double lon;
+    ArrayList<Lieux> lieux;
+    String idVoyage;
 
     private GoogleMap mMap = null;
     private Marker mSelectedMarker;
+    private Marker mLieux;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.marker_close_info_window_on_retap_demo);
 
-        //on récupère l'id du voyage que l'on veux
+        //on récupère l'id du voyage
         Intent monItent = getIntent();
-        i = monItent.getStringExtra("id");
-        Toast.makeText(this,"voyage : " + i.toString(),Toast.LENGTH_SHORT).show();
+        idVoyage = monItent.getStringExtra("id");
 
-
-
-        /*on recupère tous les lieux */
-        ArrayList<Lieux> li = new ArrayList<Lieux>();
-
-        LieuxBDD lieuxBDD = new LieuxBDD(this);
-
-        lieuxBDD.open();
-        li = lieuxBDD.getLieuxWithIdVoyage(i.toString());
-        if(li != null  ) {
-        }else{
-            Toast.makeText(this, (CharSequence) li, Toast.LENGTH_SHORT).show();
-        }
-        lieuxBDD.close();
-
-       /* Intent monItent = getIntent();
-        String i = monItent.getStringExtra(String.valueOf(mainActivity.i));
-        Toast.makeText(this,i, Toast.LENGTH_SHORT).show();*/
-
-        SupportMapFragment mapFragment =
-                (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         new OnMapAndViewReadyListener(mapFragment, this);
     }
 
     @Override
     public void onMapReady(GoogleMap map) {
         mMap = map;
-
-        // Hide the zoom controls.
         mMap.getUiSettings().setZoomControlsEnabled(false);
-
-        // Add lots of markers to the map.
-        //addMarkersToMap();
 
         LieuxBDD lieuxBDD = new LieuxBDD(this);
         lieuxBDD.open();
+        lieux = lieuxBDD.getLieuxWithIdVoyage(idVoyage);
 
-        test = lieuxBDD.getLieuxWithIdVoyage(i);
-
-
-        //Toast.makeText(this,test.toString(),Toast.LENGTH_SHORT).show();
-
-        if(test != null) {
-            for (int i = 0; i < test.size(); i++) {
-
-                Toast.makeText(this, test.get(i).toString(), Toast.LENGTH_SHORT).show();
-
-
+        if(lieux != null) {
+            for (int i = 0; i < lieux.size(); i++) {
                 mMap.addMarker(new MarkerOptions()
-                        .position(new LatLng(Double.parseDouble(test.get(i).getPointY_lieux()), Double.parseDouble(test.get(i).getPointX_lieux())))
-                        .title("" + test.get(i).getId_lieux())
+                        .position(new LatLng(Double.parseDouble(lieux.get(i).getPointY_lieux()), Double.parseDouble(lieux.get(i).getPointX_lieux())))
+                        .title("" + lieux.get(i).getId_lieux())
                         .draggable(true)
                         .visible(true)
-                        .snippet(test.get(i).getNom_lieux().toString()));
+                        .snippet(lieux.get(i).getNom_lieux().toString()));
             }
         }
         lieuxBDD.close();
 
-        // Set listener for marker click event.  See the bottom of this class for its behavior.
+
         mMap.setOnMarkerClickListener(this);
-
-        // Set listener for map click event.  See the bottom of this class for its behavior.
         mMap.setOnMapClickListener(this);
-
-        // Override the default content description on the view, for accessibility mode.
-        // Ideally this string would be localized.
-        map.setContentDescription("Demo showing how to close the info window when the currently"
-            + " selected marker is re-tapped.");
-
-        /*LatLngBounds bounds = new LatLngBounds.Builder()
-                .include(BRISBANE)
-                .build();
-        mMap.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds, 50));*/
+        map.setContentDescription("");
     }
 
     private void addMarkersToMap() {
@@ -178,22 +128,12 @@ public class MarkerCloseInfoWindowOnRetapDemoActivity extends AppCompatActivity 
 
     @Override
     public void onMapClick(final LatLng point) {
-        // Any showing info window closes when the map is clicked.
-        // Clear the currently selected marker.
         mSelectedMarker = null;
-        Toast.makeText(this, "je passe 1" , Toast.LENGTH_LONG).show();
 
         Double lat = point.latitude;
         Double lon = point.longitude;
-        //EditText tp = (EditText) findViewById (R.id.tap_text);
-        //String tps = String.valueOf(tp.getText());
 
-
-        String lat1 =  String.valueOf(lat);
-        String lon1 =  String.valueOf(lon);
-
-        Lieux l = new Lieux("", lon1,lat1,i);
-
+        Lieux l = new Lieux("", ""+lon,""+lat,idVoyage);
 
         //on enregistre le lieux dans la bdd
         LieuxBDD lieuxBDD = new LieuxBDD(this);
@@ -202,54 +142,34 @@ public class MarkerCloseInfoWindowOnRetapDemoActivity extends AppCompatActivity 
         Lieux lieuxFromBdd = lieuxBDD.getLieuxWithLatLon(lat,lon);
         lieuxBDD.close();
 
-
-        mMap.addMarker(new MarkerOptions()
+        mLieux = mMap.addMarker(new MarkerOptions()
                 .position(point)
-                .title(lieuxFromBdd.getId_Lieux_Voyage())
+                .title("" + lieuxFromBdd.getNom_lieux())
                 .draggable(true)
-                .snippet(point.latitude +" " + point.longitude ));
+                .snippet(""));
+
+        mLieux.setTag("" + lieuxFromBdd.getId_lieux());
     }
 
     @Override
     public boolean onMarkerClick(final Marker marker) {
-        // The user has re-tapped on the marker which was already showing an info window.
-
-        //Toast.makeText(this, "a" , Toast.LENGTH_LONG).show();
-       // Toast.makeText(this, marker.getSnippet() , Toast.LENGTH_LONG).show();
-
         if (marker.equals(mSelectedMarker)) {
-            Toast.makeText(this, "je passe 3" , Toast.LENGTH_LONG).show();
 
             LatLng point = marker.getPosition();
-            //String[] separated = point.split(" ");
             String lat = "" + point.latitude;
             String lon = "" + point.longitude;
 
-
             Intent intentNom = new Intent(this, addDescription.class);
-            intentNom.putExtra("idVoyage","" + i);
-            intentNom.putExtra("idLieux","" + marker.getTitle());
+            intentNom.putExtra("idVoyage","" + idVoyage);
+            intentNom.putExtra("idLieux","" + marker.getTag());
             intentNom.putExtra("lat","" + lat);
             intentNom.putExtra("lon","" + lon);
             startActivityForResult(intentNom,1);
 
-
-            // The showing info window has already been closed - that's the first thing to happen
-            // when any marker is clicked.
-            // Return true to indicate we have consumed the event and that we do not want the
-            // the default behavior to occur (which is for the camera to move such that the
-            // marker is centered and for the marker's info window to open, if it has one).
             mSelectedMarker = null;
-           // Toast.makeText(this, "je passe 4" , Toast.LENGTH_LONG).show();
-
             return true;
         }
-
         mSelectedMarker = marker;
-       // Toast.makeText(this, "je passe 5" , Toast.LENGTH_LONG).show();
-
-        // Return false to indicate that we have not consumed the event and that we wish
-        // for the default behavior to occur.
         return false;
     }
 }

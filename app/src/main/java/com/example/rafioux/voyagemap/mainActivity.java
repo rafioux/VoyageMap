@@ -17,13 +17,9 @@ import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class mainActivity extends AppCompatActivity{
-///TOdo : a supp
 
     ListView mListView;
-    static String i = "1";
     ArrayAdapter<String> adapter;
-
-
     private ArrayList<Voyage> voy = new ArrayList<Voyage>();
 
     @Override
@@ -31,11 +27,19 @@ public class mainActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.mainactivity);
         jeu();
+    }
+
+    //récupération des résultats
+    public void onActivityResult(){
+        Toast.makeText(this, "je passe 3" , Toast.LENGTH_LONG).show();
+        jeu();
 
     }
 
     //récupération des résultats
-    public void onActivityResult(int code, int resultCode, Intent donnees){
+    public void onResume(){
+        super.onResume();
+        Toast.makeText(this, "je passe " , Toast.LENGTH_LONG).show();
         jeu();
     }
 
@@ -47,8 +51,6 @@ public class mainActivity extends AppCompatActivity{
         adapter = new ArrayAdapter<String>(this, android.R.layout.list_content);
         voyageBdd.close();
 
-        //Affiche les éléments dans la liste
-        //TODO : liste des noms de voyage
 
         String[] tab;
         if (voy != null) {
@@ -64,18 +66,16 @@ public class mainActivity extends AppCompatActivity{
             mListView.setAdapter(adapter);
         }
 
-        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-
-                Toast.makeText(getApplicationContext(), "Test" + id+position, Toast.LENGTH_SHORT).show();
-
-                Intent intentNom = new Intent(mainActivity.this, MarkerCloseInfoWindowOnRetapDemoActivity.class);
-                intentNom.putExtra("id","" + id);
-                startActivityForResult(intentNom,1);
-            }
-        });
+        if(mListView != null) {
+            mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    Intent intentNom = new Intent(mainActivity.this, MarkerCloseInfoWindowOnRetapDemoActivity.class);
+                    intentNom.putExtra("id", "" + id);
+                    startActivityForResult(intentNom, 1);
+                }
+            });
+        }
     }
 
 

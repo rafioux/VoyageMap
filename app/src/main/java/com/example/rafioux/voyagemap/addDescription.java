@@ -10,11 +10,10 @@ import android.widget.Toast;
 public class addDescription extends Activity {
 
     EditText description;
-    String i;
-    String j;
+    String idVoyage;
+    String idLieux;
     String lon;
     String lat;
-    Boolean edit;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,21 +21,19 @@ public class addDescription extends Activity {
         setContentView(R.layout.adddescription);
 
         Intent monItent = getIntent();
-        i = monItent.getStringExtra("idVoyage");
-        j = monItent.getStringExtra("idLieux");
+        idVoyage = monItent.getStringExtra("idVoyage");
+        idLieux = monItent.getStringExtra("idLieux");
         lat = monItent.getStringExtra("lat");
         lon = monItent.getStringExtra("lon");
-        edit = false;
 
 
         LieuxBDD lieuxBdd = new LieuxBDD(this);
         lieuxBdd.open();
-        Lieux l = lieuxBdd.getLieuxWithID(Integer.parseInt(j));
+        Lieux l = lieuxBdd.getLieuxWithID(Integer.parseInt(idLieux));
         lieuxBdd.close();
 
-        if(l.getNom_lieux() == null || l.getNom_lieux() != ""){
-            edit = true;
-            Toast.makeText(this, l.getNom_lieux(), Toast.LENGTH_LONG).show();
+        if(l.getNom_lieux() != null || l.getNom_lieux() != ""){
+            //Toast.makeText(this, l.getNom_lieux(), Toast.LENGTH_LONG).show();
             description = (EditText) findViewById(R.id.description);
             description.setText(l.getNom_lieux());
         }
@@ -47,12 +44,10 @@ public class addDescription extends Activity {
 
         description = (EditText) findViewById(R.id.description);
         LieuxBDD lieuxBdd = new LieuxBDD(this);
-        Lieux lieux = new Lieux(description.getText().toString(),lon,lat,i);
+        Lieux lieux = new Lieux(description.getText().toString(),lon,lat,idVoyage);
         lieuxBdd.open();
-        lieuxBdd.updateLieux(Integer.parseInt(j),lieux);
+        lieuxBdd.updateLieux(Integer.parseInt(idLieux),lieux);
         lieuxBdd.close();
-
-
 
         this.finish();
     }
