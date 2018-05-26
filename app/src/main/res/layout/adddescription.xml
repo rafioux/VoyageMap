@@ -9,33 +9,26 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
         android:paddingBottom="50dp"
         android:paddingTop="20dp"
-        android:textSize="40sp"
+        android:gravity="center"
+        android:textSize="25sp"
         android:textStyle="bold"
-        android:text="Voyage Voyage !" />
+        android:text="Ajoute une description" />
 
-    <ListView
-        android:id="@+id/listView"
+    <EditText
+        android:id="@+id/description"
         android:layout_width="match_parent"
-        android:layout_height="388dp"/>
-
-    <!--<Button
-        android:onClick="test"
-        android:layout_width="100dp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="right"
-        android:text="pour test"/>-->
+        android:layout_height="50dp"
+        android:inputType="text"/>
 
     <Button
-        android:onClick="add"
+        android:id="@+id/add_voyage"
+        android:onClick="save"
         android:layout_width="100dp"
         android:layout_height="wrap_content"
-        android:layout_gravity="right"
-        android:text="Ajouter" />
-
-
+        android:layout_gravity="end|bottom"
+        android:text="save" />
 
 
 </LinearLayout>

@@ -49,11 +49,10 @@ public class MarkerCloseInfoWindowOnRetapDemoActivity extends AppCompatActivity 
     //private static final LatLng ADELAIDE = new LatLng(-34.92873, 138.59995);
     //private static final LatLng PERTH = new LatLng(-31.952854, 115.857342);
     String i;
-    private GoogleMap mMap = null;
+    Double lat;
+    Double lon;
 
-    /**
-     * Keeps track of the selected marker.
-     */
+    private GoogleMap mMap = null;
     private Marker mSelectedMarker;
 
     @Override
@@ -63,7 +62,7 @@ public class MarkerCloseInfoWindowOnRetapDemoActivity extends AppCompatActivity 
 
         //on récupère l'id du voyage que l'on veux
         Intent monItent = getIntent();
-        i = monItent.getStringExtra(mainActivity.i);
+        i = monItent.getStringExtra("id");
         Toast.makeText(this,"voyage : " + i.toString(),Toast.LENGTH_SHORT).show();
 
 
@@ -108,20 +107,20 @@ public class MarkerCloseInfoWindowOnRetapDemoActivity extends AppCompatActivity 
 
         //Toast.makeText(this,test.toString(),Toast.LENGTH_SHORT).show();
 
+        if(test != null) {
+            for (int i = 0; i < test.size(); i++) {
 
-        for(int i = 0 ; i < test.size(); i++) {
-
-            Toast.makeText(this, test.get(i).toString(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, test.get(i).toString(), Toast.LENGTH_SHORT).show();
 
 
-            mMap.addMarker(new MarkerOptions()
-                    .position(new LatLng( Double.parseDouble(test.get(i).getPointY_lieux()), Double.parseDouble(test.get(i).getPointX_lieux())))
-                    .title(test.get(i).getNom_lieux().toString())
-                    .draggable(true)
-                    .visible(true)
-                    .snippet(test.get(i).getNom_lieux().toString()));
+                mMap.addMarker(new MarkerOptions()
+                        .position(new LatLng(Double.parseDouble(test.get(i).getPointY_lieux()), Double.parseDouble(test.get(i).getPointX_lieux())))
+                        .title("" + test.get(i).getId_lieux())
+                        .draggable(true)
+                        .visible(true)
+                        .snippet(test.get(i).getNom_lieux().toString()));
+            }
         }
-
         lieuxBDD.close();
 
         // Set listener for marker click event.  See the bottom of this class for its behavior.
@@ -186,31 +185,27 @@ public class MarkerCloseInfoWindowOnRetapDemoActivity extends AppCompatActivity 
 
         Double lat = point.latitude;
         Double lon = point.longitude;
-        EditText tp = (EditText) findViewById (R.id.tap_text);
-        String tps = String.valueOf(tp.getText());
+        //EditText tp = (EditText) findViewById (R.id.tap_text);
+        //String tps = String.valueOf(tp.getText());
 
 
         String lat1 =  String.valueOf(lat);
         String lon1 =  String.valueOf(lon);
 
-        Lieux l = new Lieux(tps, lon1,lat1,i);
+        Lieux l = new Lieux("", lon1,lat1,i);
 
 
-        //on enregoistre le lieux dans la bdd
+        //on enregistre le lieux dans la bdd
         LieuxBDD lieuxBDD = new LieuxBDD(this);
         lieuxBDD.open();
         lieuxBDD.insertLieux(l);
+        Lieux lieuxFromBdd = lieuxBDD.getLieuxWithLatLon(lat,lon);
         lieuxBDD.close();
 
 
-
-        String chaine = tp.getText().toString();
-
-        Toast.makeText(this, "le futur lieux : lat" + lat + " lon : " + lon + "description : " + chaine , Toast.LENGTH_LONG).show();
-
         mMap.addMarker(new MarkerOptions()
                 .position(point)
-                .title("1")
+                .title(lieuxFromBdd.getId_Lieux_Voyage())
                 .draggable(true)
                 .snippet(point.latitude +" " + point.longitude ));
     }
@@ -219,10 +214,25 @@ public class MarkerCloseInfoWindowOnRetapDemoActivity extends AppCompatActivity 
     public boolean onMarkerClick(final Marker marker) {
         // The user has re-tapped on the marker which was already showing an info window.
 
-        Toast.makeText(this, marker.getSnippet() , Toast.LENGTH_LONG).show();
+        //Toast.makeText(this, "a" , Toast.LENGTH_LONG).show();
+       // Toast.makeText(this, marker.getSnippet() , Toast.LENGTH_LONG).show();
 
         if (marker.equals(mSelectedMarker)) {
             Toast.makeText(this, "je passe 3" , Toast.LENGTH_LONG).show();
+
+            LatLng point = marker.getPosition();
+            //String[] separated = point.split(" ");
+            String lat = "" + point.latitude;
+            String lon = "" + point.longitude;
+
+
+            Intent intentNom = new Intent(this, addDescription.class);
+            intentNom.putExtra("idVoyage","" + i);
+            intentNom.putExtra("idLieux","" + marker.getTitle());
+            intentNom.putExtra("lat","" + lat);
+            intentNom.putExtra("lon","" + lon);
+            startActivityForResult(intentNom,1);
+
 
             // The showing info window has already been closed - that's the first thing to happen
             // when any marker is clicked.
@@ -230,13 +240,13 @@ public class MarkerCloseInfoWindowOnRetapDemoActivity extends AppCompatActivity 
             // the default behavior to occur (which is for the camera to move such that the
             // marker is centered and for the marker's info window to open, if it has one).
             mSelectedMarker = null;
-            Toast.makeText(this, "je passe 4" , Toast.LENGTH_LONG).show();
+           // Toast.makeText(this, "je passe 4" , Toast.LENGTH_LONG).show();
 
             return true;
         }
 
         mSelectedMarker = marker;
-        Toast.makeText(this, "je passe 5" , Toast.LENGTH_LONG).show();
+       // Toast.makeText(this, "je passe 5" , Toast.LENGTH_LONG).show();
 
         // Return false to indicate that we have not consumed the event and that we wish
         // for the default behavior to occur.

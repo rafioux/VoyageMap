@@ -12,13 +12,6 @@ import java.util.ArrayList;
 
 import static android.widget.Toast.LENGTH_SHORT;
 
-
-/**
- * Created by Rafioux on 02/05/2018.
- */
-
-
-
 public class LieuxBDD {
 
     public static final String TAG = "VoyageBDD";
@@ -26,16 +19,6 @@ public class LieuxBDD {
     private SQLiteDatabase mDatabase;
     private Database maBaseSQLite;  //mDbHelper
     private Context mContext;
-
-
-
-    /*
-        public LieuxBDD(Context context) {
-		    Database tmp = new Database(context);
-		    database = tmp.getDatabase();
-		}
-	}*/
-
 
     public LieuxBDD(Context context){
         //On crée la BDD et sa table
@@ -106,8 +89,6 @@ public class LieuxBDD {
         return mDatabase.update(Database.TABLE_LIEUX,  values, maBaseSQLite.COL_ID_LIEUX + " = " +id, null);
     }
 
-
-
     //lieux
     public int removeLieuxWithID(int id){
         //Suppression d'un lieux de la BDD grâce à l'ID
@@ -120,6 +101,19 @@ public class LieuxBDD {
     public Lieux getLieuxWithNom(String nom){
         //Récupère dans un Cursor les valeurs correspondant à un lieux contenu dans la BDD (ici on sélectionne le livre grâce à son titre)
         Cursor c = mDatabase.query(Database.TABLE_LIEUX, new String[] {maBaseSQLite.COL_ID_LIEUX, maBaseSQLite.COL_NOM_lIEUX, maBaseSQLite.COL_POINTX, maBaseSQLite.COL_POINTY, maBaseSQLite.COL_ID_VOYAGE_LIEUX}, maBaseSQLite.COL_NOM_lIEUX + " LIKE \"" + nom +"\"", null, null, null, null);
+        return cursorToLieux(c);
+    }
+
+    public Lieux getLieuxWithLatLon(Double lat, Double lon){
+        //Récupère dans un Cursor les valeurs correspondant à un lieux contenu dans la BDD (ici on sélectionne le livre grâce à son titre)
+        Cursor c = mDatabase.query(Database.TABLE_LIEUX, new String[] {maBaseSQLite.COL_ID_LIEUX, maBaseSQLite.COL_NOM_lIEUX, maBaseSQLite.COL_POINTX, maBaseSQLite.COL_POINTY, maBaseSQLite.COL_ID_VOYAGE_LIEUX}, maBaseSQLite.COL_POINTX + " = \"" + lon +"\" and " + maBaseSQLite.COL_POINTY + " = \"" + lat +"\"", null, null, null, null);
+        return cursorToLieux(c);
+    }
+
+    //lieux
+    public Lieux getLieuxWithID(int id){
+        //Récupère dans un Cursor les valeurs correspondant à un lieux contenu dans la BDD (ici on sélectionne le livre grâce à son titre)
+        Cursor c = mDatabase.query(Database.TABLE_LIEUX, new String[] {maBaseSQLite.COL_ID_LIEUX, maBaseSQLite.COL_NOM_lIEUX, maBaseSQLite.COL_POINTX, maBaseSQLite.COL_POINTY, maBaseSQLite.COL_ID_VOYAGE_LIEUX}, maBaseSQLite.COL_ID_LIEUX + " = \"" + id +"\"", null, null, null, null);
         return cursorToLieux(c);
     }
 
@@ -240,12 +234,12 @@ public class LieuxBDD {
         c.close();
 
         if(listL.isEmpty()) {
-            Lieux bidon = new Lieux("bbd_vide" , "-27.47093","153.0235","0");
+            Lieux bidon = new Lieux("bbd_vide" , "0","0","0");
             listL.add(bidon);
             Toast.makeText(mContext, bidon.toString(), LENGTH_SHORT).show();
         }
 
-        //On retourne l'etudiant
+
         return listL;
     }
 }
