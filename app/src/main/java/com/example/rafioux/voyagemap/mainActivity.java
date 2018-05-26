@@ -16,11 +16,9 @@ import android.widget.Toast;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 
-public class mainActivity extends AppCompatActivity /*implements AdapterView.OnItemSelectedListener*/ {
+public class mainActivity extends AppCompatActivity{
 ///TOdo : a supp
 
-
-    /* 1 */  /*https://developers.google.com/maps/documentation/android-api/signup?hl=fr*/
     ListView mListView;
     static String i = "1";
     ArrayAdapter<String> adapter;
@@ -32,27 +30,25 @@ public class mainActivity extends AppCompatActivity /*implements AdapterView.OnI
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.mainactivity);
+        jeu();
 
+    }
+
+    //récupération des résultats
+    public void onActivityResult(int code, int resultCode, Intent donnees){
+        jeu();
+    }
+
+    protected void jeu(){
         //Création d'une instance de ma classe VoyageBDD et
         VoyageBDD voyageBdd = new VoyageBDD(this);
-
-
         voyageBdd.open();
         voy = voyageBdd.getVoyageAll();
-        //Toast.makeText(this, voyageBdd.getVoyageAll().toString(), Toast.LENGTH_LONG).show();
-        //Pour vérifier que l'on a bien créé notre voyage dans la BDD
-        //on extrait le voyage de la BDD grâce au titre du voyage que l'on a créé précédemment
-
         adapter = new ArrayAdapter<String>(this, android.R.layout.list_content);
-
-        //voyageBdd.close();
-
-        //ArrayAdapter<Voyage> adapter = new ArrayAdapter<Voyage>(this, android.R.layout.simple_list_item_1, voy);
-
+        voyageBdd.close();
 
         //Affiche les éléments dans la liste
         //TODO : liste des noms de voyage
-        mListView = (ListView) findViewById(R.id.listView);
 
         String[] tab;
         if (voy != null) {
@@ -63,12 +59,11 @@ public class mainActivity extends AppCompatActivity /*implements AdapterView.OnI
                 tab[i] = s;
             }
 
-            Toast.makeText(getApplicationContext(), "Testrentre", Toast.LENGTH_SHORT).show();
-
+            mListView = (ListView) findViewById(R.id.listView);
             adapter = new ArrayAdapter<String>(mainActivity.this, android.R.layout.simple_list_item_1, tab);
-
             mListView.setAdapter(adapter);
         }
+
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
