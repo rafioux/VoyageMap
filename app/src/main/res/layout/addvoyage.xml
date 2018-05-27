@@ -16,12 +16,46 @@
         android:textStyle="bold"
         android:text="Ajoute un nouveau voyage" />
 
-    <EditText
-        android:id="@+id/nom_voyage"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:hint="Voyage"
-        android:inputType="text"/>
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Titre : "
+            android:textStyle="bold"
+            android:textSize="18sp"
+            android:gravity="center"/>
+
+        <EditText
+            android:id="@+id/titre"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Description : "
+            android:textStyle="bold"
+            android:textSize="18sp"
+            android:gravity="center"/>
+
+        <EditText
+            android:id="@+id/description"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textMultiLine"
+            android:layout_weight="1"/>
+    </LinearLayout>
 
     <Button
         android:id="@+id/add_voyage"

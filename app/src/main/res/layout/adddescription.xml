@@ -2,32 +2,67 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     android:paddingLeft="16dp"
-    android:paddingRight="16dp"
-    android:orientation="vertical">
+    android:paddingRight="16dp">
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:gravity="center"
         android:paddingBottom="50dp"
         android:paddingTop="20dp"
-        android:gravity="center"
+        android:text="Modifiez vos informations"
         android:textSize="25sp"
-        android:textStyle="bold"
-        android:text="Ajoute une description" />
+        android:textStyle="bold" />
 
-    <EditText
-        android:id="@+id/description"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:inputType="text"/>
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Titre : "
+            android:textStyle="bold"
+            android:textSize="18sp"
+            android:gravity="center"/>
+
+        <EditText
+            android:id="@+id/titre"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Commentaire : "
+            android:textStyle="bold"
+            android:textSize="18sp"
+            android:gravity="center"/>
+
+        <EditText
+            android:id="@+id/commentaire"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textMultiLine"
+            android:layout_weight="1"/>
+    </LinearLayout>
 
     <Button
         android:id="@+id/add_voyage"
-        android:onClick="save"
         android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:layout_gravity="end|bottom"
+        android:onClick="save"
         android:text="save" />
 
 

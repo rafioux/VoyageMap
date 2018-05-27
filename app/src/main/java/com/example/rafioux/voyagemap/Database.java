@@ -25,12 +25,14 @@ public class Database extends SQLiteOpenHelper {
     protected static final int NUM_COL_ID_LIEUX = 0;
     protected static final String COL_NOM_lIEUX = "nom_lieux";
     protected static final int NUM_COL_NOM_LIEUX = 1;
-    public static final String COL_POINTX = "pointX_lieux";
-    protected static final int NUM_COL_POINTX = 2;
-    public static final String COL_POINTY = "pointY_lieux";
-    protected static final int NUM_COL_POINTY = 3;
+    protected static final String COL_COMMENTAIRE = "commentaire";
+    protected static final int NUM_COL_COMMENTAIRE = 2;
+    public static final String COL_LONGITUDE = "longitude_lieux";
+    protected static final int NUM_COL_LONGITUDE = 3;
+    public static final String COL_LATITUDE = "latitude_lieux";
+    protected static final int NUM_COL_LATITUDE = 4;
     public static final String COL_ID_VOYAGE_LIEUX = "id_Lieux_Voyage";
-    protected static final int NUM_COL_ID_VOYAGE_LIEUX = 4;
+    protected static final int NUM_COL_ID_VOYAGE_LIEUX = 5;
 
 
     public static final String COL_ID_VOYAGE = "id_voyage";
@@ -49,8 +51,8 @@ public class Database extends SQLiteOpenHelper {
 
 
     private static final String CREATE_BDD_Lieux = "CREATE TABLE " + TABLE_LIEUX + " ("
-            + COL_ID_LIEUX + " INTEGER PRIMARY KEY AUTOINCREMENT, " + COL_NOM_lIEUX + " TEXT NOT NULL, "
-            + COL_POINTX + " TEXT NOT NULL, " + COL_POINTY + " TEXT NOT NULL, "
+            + COL_ID_LIEUX + " INTEGER PRIMARY KEY AUTOINCREMENT, " + COL_NOM_lIEUX + " TEXT NOT NULL, " + COL_COMMENTAIRE + " TEXT NOT NULL, "
+            + COL_LONGITUDE + " TEXT NOT NULL, " + COL_LATITUDE + " TEXT NOT NULL, "
             + COL_ID_VOYAGE_LIEUX + " TEXT NOT NULL)";
 
     public Database(Context context ) {

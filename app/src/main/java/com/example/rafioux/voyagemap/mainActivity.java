@@ -20,7 +20,7 @@ public class mainActivity extends AppCompatActivity{
 
     ListView mListView;
     ArrayAdapter<String> adapter;
-    private ArrayList<Voyage> voy = new ArrayList<Voyage>();
+    private ArrayList<Voyage> voyages = new ArrayList<Voyage>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,17 +29,10 @@ public class mainActivity extends AppCompatActivity{
         jeu();
     }
 
-    //récupération des résultats
-    public void onActivityResult(){
-        Toast.makeText(this, "je passe 3" , Toast.LENGTH_LONG).show();
-        jeu();
-
-    }
 
     //récupération des résultats
     public void onResume(){
         super.onResume();
-        Toast.makeText(this, "je passe " , Toast.LENGTH_LONG).show();
         jeu();
     }
 
@@ -47,18 +40,19 @@ public class mainActivity extends AppCompatActivity{
         //Création d'une instance de ma classe VoyageBDD et
         VoyageBDD voyageBdd = new VoyageBDD(this);
         voyageBdd.open();
-        voy = voyageBdd.getVoyageAll();
+        voyages = voyageBdd.getVoyageAll();
         adapter = new ArrayAdapter<String>(this, android.R.layout.list_content);
         voyageBdd.close();
 
 
         String[] tab;
-        if (voy != null) {
-            tab = new String[voy.size()];
-            for (int i = 0; i < voy.size(); i++) {
-                Voyage v = voy.get(i);
-                String s = v.getNom_voyage();
-                tab[i] = s;
+        if (voyages != null) {
+            tab = new String[voyages.size()];
+            for (int i = 0; i < voyages.size(); i++) {
+                Voyage voyage = voyages.get(i);
+                String v = voyage.getNom_voyage();
+                String d = voyage.getDescription();
+                tab[i] = v + ", " + d;
             }
 
             mListView = (ListView) findViewById(R.id.listView);

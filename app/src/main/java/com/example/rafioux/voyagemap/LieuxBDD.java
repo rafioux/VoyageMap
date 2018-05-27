@@ -47,29 +47,13 @@ public class LieuxBDD {
     }
 
 
-   /* public Voyage insertVoyage(String name, String pointX, String pointY) {
-        ContentValues values = new ContentValues();
-        values.put(Database.COL_NOM, name);
-        values.put(Database.COL_POINTX, pointX);
-        values.put(Database.COL_POINTY, pointY);
-
-        long insertId = mDatabase.insert(Database.TABLE_VOYAGES, null, values);
-        Cursor cursor = mDatabase.query(DBHelper.TABLE_COMPANIES, mAllColumns,
-                DBHelper.COLUMN_COMPANY_ID + " = " + insertId, null, null,null, null);
-        cursor.moveToFirst();
-        Company newCompany = cursorToCompany(cursor);
-        cursor.close();
-        return newCompany;
-    }*/
-
     //pour la table lieux
     public long insertLieux(Lieux lieux){
-        //Création d'un ContentValues (fonctionne comme une HashMap)
         ContentValues values = new ContentValues();
-        //on lui ajoute une valeur associée à une clé (qui est le nom de la colonne dans laquelle on veut mettre la valeur)
         values.put(maBaseSQLite.COL_NOM_lIEUX, lieux.getNom_lieux());
-        values.put(maBaseSQLite.COL_POINTX, lieux.getPointX_lieux());
-        values.put(maBaseSQLite.COL_POINTY, lieux.getPointY_lieux());
+        values.put(maBaseSQLite.COL_COMMENTAIRE, lieux.getCommentaire());
+        values.put(maBaseSQLite.COL_LONGITUDE, lieux.getLongitude());
+        values.put(maBaseSQLite.COL_LATITUDE, lieux.getLatitude());
         values.put(maBaseSQLite.COL_ID_VOYAGE_LIEUX, lieux.getId_Lieux_Voyage());
         //on insère l'objet dans la BDD via le ContentValues
         return mDatabase.insert(Database.TABLE_LIEUX, null, values);
@@ -83,8 +67,9 @@ public class LieuxBDD {
         //il faut simplement préciser quel lieux on doit mettre à jour grâce à l'ID
         ContentValues values = new ContentValues();
         values.put(maBaseSQLite.COL_NOM_lIEUX, lieux.getNom_lieux());
-        values.put(maBaseSQLite.COL_POINTX, lieux.getPointX_lieux());
-        values.put(maBaseSQLite.COL_POINTY, lieux.getPointY_lieux());
+        values.put(maBaseSQLite.COL_COMMENTAIRE, lieux.getCommentaire());
+        values.put(maBaseSQLite.COL_LONGITUDE, lieux.getLongitude());
+        values.put(maBaseSQLite.COL_LATITUDE, lieux.getLatitude());
         values.put(maBaseSQLite.COL_ID_VOYAGE_LIEUX, lieux.getId_Lieux_Voyage());
         return mDatabase.update(Database.TABLE_LIEUX,  values, maBaseSQLite.COL_ID_LIEUX + " = " +id, null);
     }
@@ -100,27 +85,27 @@ public class LieuxBDD {
     //lieux
     public Lieux getLieuxWithNom(String nom){
         //Récupère dans un Cursor les valeurs correspondant à un lieux contenu dans la BDD (ici on sélectionne le livre grâce à son titre)
-        Cursor c = mDatabase.query(Database.TABLE_LIEUX, new String[] {maBaseSQLite.COL_ID_LIEUX, maBaseSQLite.COL_NOM_lIEUX, maBaseSQLite.COL_POINTX, maBaseSQLite.COL_POINTY, maBaseSQLite.COL_ID_VOYAGE_LIEUX}, maBaseSQLite.COL_NOM_lIEUX + " LIKE \"" + nom +"\"", null, null, null, null);
+        Cursor c = mDatabase.query(Database.TABLE_LIEUX, new String[] {maBaseSQLite.COL_ID_LIEUX, maBaseSQLite.COL_NOM_lIEUX, maBaseSQLite.COL_COMMENTAIRE, maBaseSQLite.COL_LONGITUDE, maBaseSQLite.COL_LATITUDE, maBaseSQLite.COL_ID_VOYAGE_LIEUX}, maBaseSQLite.COL_NOM_lIEUX + " LIKE \"" + nom +"\"", null, null, null, null);
         return cursorToLieux(c);
     }
 
     public Lieux getLieuxWithLatLon(Double lat, Double lon){
         //Récupère dans un Cursor les valeurs correspondant à un lieux contenu dans la BDD (ici on sélectionne le livre grâce à son titre)
-        Cursor c = mDatabase.query(Database.TABLE_LIEUX, new String[] {maBaseSQLite.COL_ID_LIEUX, maBaseSQLite.COL_NOM_lIEUX, maBaseSQLite.COL_POINTX, maBaseSQLite.COL_POINTY, maBaseSQLite.COL_ID_VOYAGE_LIEUX}, maBaseSQLite.COL_POINTX + " = \"" + lon +"\" and " + maBaseSQLite.COL_POINTY + " = \"" + lat +"\"", null, null, null, null);
+        Cursor c = mDatabase.query(Database.TABLE_LIEUX, new String[] {maBaseSQLite.COL_ID_LIEUX, maBaseSQLite.COL_NOM_lIEUX, maBaseSQLite.COL_COMMENTAIRE, maBaseSQLite.COL_LONGITUDE, maBaseSQLite.COL_LATITUDE, maBaseSQLite.COL_ID_VOYAGE_LIEUX}, maBaseSQLite.COL_LONGITUDE + " = \"" + lon +"\" and " + maBaseSQLite.COL_LATITUDE + " = \"" + lat +"\"", null, null, null, null);
         return cursorToLieux(c);
     }
 
     //lieux
     public Lieux getLieuxWithID(int id){
         //Récupère dans un Cursor les valeurs correspondant à un lieux contenu dans la BDD (ici on sélectionne le livre grâce à son titre)
-        Cursor c = mDatabase.query(Database.TABLE_LIEUX, new String[] {maBaseSQLite.COL_ID_LIEUX, maBaseSQLite.COL_NOM_lIEUX, maBaseSQLite.COL_POINTX, maBaseSQLite.COL_POINTY, maBaseSQLite.COL_ID_VOYAGE_LIEUX}, maBaseSQLite.COL_ID_LIEUX + " = \"" + id +"\"", null, null, null, null);
+        Cursor c = mDatabase.query(Database.TABLE_LIEUX, new String[] {maBaseSQLite.COL_ID_LIEUX, maBaseSQLite.COL_NOM_lIEUX, maBaseSQLite.COL_COMMENTAIRE, maBaseSQLite.COL_LONGITUDE, maBaseSQLite.COL_LATITUDE, maBaseSQLite.COL_ID_VOYAGE_LIEUX}, maBaseSQLite.COL_ID_LIEUX + " = \"" + id +"\"", null, null, null, null);
         return cursorToLieux(c);
     }
 
     //lieux
     public ArrayList<Lieux> getLieuxWithIdVoyage(String id){
         //Récupère dans un Cursor les valeurs correspondant à un lieux contenu dans la BDD (ici on sélectionne le livre grâce à son titre)
-        Cursor c = mDatabase.query(Database.TABLE_LIEUX, new String[] {maBaseSQLite.COL_ID_LIEUX, maBaseSQLite.COL_NOM_lIEUX, maBaseSQLite.COL_POINTX, maBaseSQLite.COL_POINTY, maBaseSQLite.COL_ID_VOYAGE_LIEUX}, maBaseSQLite.COL_ID_VOYAGE_LIEUX + " LIKE \"" + id +"\"", null, null, null, null);
+        Cursor c = mDatabase.query(Database.TABLE_LIEUX, new String[] {maBaseSQLite.COL_ID_LIEUX, maBaseSQLite.COL_NOM_lIEUX, maBaseSQLite.COL_COMMENTAIRE, maBaseSQLite.COL_LONGITUDE, maBaseSQLite.COL_LATITUDE, maBaseSQLite.COL_ID_VOYAGE_LIEUX}, maBaseSQLite.COL_ID_VOYAGE_LIEUX + " LIKE \"" + id +"\"", null, null, null, null);
         return cursorAllLieux(c);
     }
 
@@ -145,16 +130,14 @@ public class LieuxBDD {
         //on lui affecte toutes les infos grâce aux infos contenues dans le Cursor
         lieux.setId_lieux(c.getInt(maBaseSQLite.NUM_COL_ID));
         lieux.setNom_lieux(c.getString(maBaseSQLite.NUM_COL_NOM));
-        lieux.setPointX_lieux(c.getString(maBaseSQLite.NUM_COL_POINTX));
-        lieux.setPointY(c.getString(maBaseSQLite.NUM_COL_POINTY));
+        lieux.setCommentaire(c.getString(maBaseSQLite.NUM_COL_COMMENTAIRE));
+        lieux.setLongitude(c.getString(maBaseSQLite.NUM_COL_LONGITUDE));
+        lieux.setLatitude(c.getString(maBaseSQLite.NUM_COL_LATITUDE));
         lieux.setId_Lieux_Voyage(c.getString(maBaseSQLite.NUM_COL_ID_VOYAGE_LIEUX));
         //On ferme le cursor
         c.close();
 
 
-
-
-        //On retourne le livre
         return lieux;
     }
 
@@ -175,8 +158,9 @@ public class LieuxBDD {
             //on lui affecte toutes les infos grâce aux infos contenues dans le Cursor
             lieux.setId_lieux(c.getInt(maBaseSQLite.NUM_COL_ID));
             lieux.setNom_lieux(c.getString(maBaseSQLite.NUM_COL_NOM));
-            lieux.setPointX_lieux(c.getString(maBaseSQLite.NUM_COL_POINTX));
-            lieux.setPointY(c.getString(maBaseSQLite.NUM_COL_POINTY));
+            lieux.setCommentaire(c.getString(maBaseSQLite.NUM_COL_COMMENTAIRE));
+            lieux.setLongitude(c.getString(maBaseSQLite.NUM_COL_LONGITUDE));
+            lieux.setLatitude(c.getString(maBaseSQLite.NUM_COL_LATITUDE));
             lieux.setId_Lieux_Voyage(c.getString(maBaseSQLite.NUM_COL_ID_VOYAGE_LIEUX));
 
 
@@ -187,7 +171,8 @@ public class LieuxBDD {
         //On ferme le cursor
         c.close();
 
-        if(listL.isEmpty()) {
+        //TODO :quoi?
+        /*if(listL.isEmpty()) {
             Lieux bidon = new Lieux();
             bidon.setId_lieux(0);
             bidon.setId_Lieux_Voyage("1");
@@ -198,19 +183,19 @@ public class LieuxBDD {
             //Lieux bidon = new Lieux("bbd vide" , "0","0","0");
             listL.add(bidon);
             listL.add(bidon);
-        }
+        }*/
 
-        //On retourne l'etudiant
+
         return listL;
     }
-
+    //TODO : supp?
     private ArrayList<Lieux> cursorAllLieuxVoyage(Cursor c) {
         //si aucun élément n'a été retourné dans la requête, on renvoie null
         if (c.getCount() == 0)
             return null;
 
         ArrayList<Lieux> listL = new ArrayList<Lieux>();
-        //Sinon on se place sur le premier élément
+       /* //Sinon on se place sur le premier élément
         c.moveToFirst();
 
         while(!c.isAfterLast()) {
@@ -221,6 +206,7 @@ public class LieuxBDD {
             //on lui affecte toutes les infos grâce aux infos contenues dans le Cursor
             lieux.setId_lieux(c.getInt(maBaseSQLite.NUM_COL_ID));
             lieux.setNom_lieux(c.getString(maBaseSQLite.NUM_COL_NOM));
+            lieux.setCommentaire(c.getString(maBaseSQLite.NUM_COL_COMMENTAIRE));
             lieux.setPointX_lieux(c.getString(maBaseSQLite.NUM_COL_POINTX));
             lieux.setPointY(c.getString(maBaseSQLite.NUM_COL_POINTY));
             lieux.setId_Lieux_Voyage(c.getString(maBaseSQLite.NUM_COL_ID_VOYAGE_LIEUX));
@@ -234,11 +220,11 @@ public class LieuxBDD {
         c.close();
 
         if(listL.isEmpty()) {
-            Lieux bidon = new Lieux("bbd_vide" , "0","0","0");
+            Lieux bidon = new Lieux("bbd_vide" ,"", "0","0","0");
             listL.add(bidon);
             Toast.makeText(mContext, bidon.toString(), LENGTH_SHORT).show();
         }
-
+*/
 
         return listL;
     }

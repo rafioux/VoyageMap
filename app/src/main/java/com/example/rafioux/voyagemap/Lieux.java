@@ -11,8 +11,9 @@ public class Lieux {
     /* 1 */
     private int id_lieux;
     private String nom_lieux;
-    private String pointX_lieux;
-    private String pointY_lieux;
+    private String commentaire;
+    private String longitude;
+    private String latitude;
     private String id_Lieux_Voyage;
 
 
@@ -21,16 +22,18 @@ public class Lieux {
 
     public Lieux (ContentValues cv){
         this.nom_lieux = (String) cv.get("nom_lieux");
-        this.pointX_lieux = (String) cv.get("pointX_lieux");
-        this.pointY_lieux = (String) cv.get("pointY_lieux");
+        this.commentaire = (String) cv.get("commentaire");
+        this.longitude = (String) cv.get("longitude");
+        this.latitude = (String) cv.get("latitude");
         this.id_Lieux_Voyage = (String) cv.get("id_Lieux_Voyage");
 
     }
 
-    public Lieux(String nom_lieux, String pointX_lieux, String pointY_lieux, String id_Lieux_Voyage ){
+    public Lieux(String nom_lieux, String commentaire, String longitude, String latitude, String id_Lieux_Voyage ){
         this.nom_lieux = nom_lieux;
-        this.pointX_lieux = pointX_lieux;
-        this.pointY_lieux = pointY_lieux;
+        this.commentaire = commentaire;
+        this.longitude = longitude;
+        this.latitude = latitude;
         this.id_Lieux_Voyage = id_Lieux_Voyage;
     }
 
@@ -58,24 +61,32 @@ public class Lieux {
         this.nom_lieux = nom_lieux;
     }
 
-    public String getPointX_lieux() {
-        return pointX_lieux;
+    public String getCommentaire() {
+        return commentaire;
     }
 
-    public void setPointX_lieux(String pointX_lieux) {
-        this.pointX_lieux = pointX_lieux;
+    public void setCommentaire(String commentaire) {
+        this.commentaire = commentaire;
     }
 
-    public String getPointY_lieux() {
-        return pointY_lieux;
+    public String getLongitude() {
+        return longitude;
     }
 
-    public void setPointY(String pointY_lieux) {
-        this.pointY_lieux = pointY_lieux;
+    public void setLongitude(String longitude) {
+        this.longitude = longitude;
+    }
+
+    public String getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(String latitude) {
+        this.latitude = latitude;
     }
 
     public String toString(){
-        return id_lieux + " : " + nom_lieux + " " + pointX_lieux + " " + pointY_lieux + " " + id_Lieux_Voyage ;
+        return id_lieux + " : " + nom_lieux + " " + commentaire + " " + longitude + " " + latitude + " " + id_Lieux_Voyage ;
     }
 
 }

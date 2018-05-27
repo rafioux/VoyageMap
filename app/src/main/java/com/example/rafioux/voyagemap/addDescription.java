@@ -9,7 +9,8 @@ import android.widget.Toast;
 
 public class addDescription extends Activity {
 
-    EditText description;
+    EditText titre;
+    EditText commentaire;
     String idVoyage;
     String idLieux;
     String lon;
@@ -33,18 +34,23 @@ public class addDescription extends Activity {
         lieuxBdd.close();
 
         if(l.getNom_lieux() != null || l.getNom_lieux() != ""){
-            //Toast.makeText(this, l.getNom_lieux(), Toast.LENGTH_LONG).show();
-            description = (EditText) findViewById(R.id.description);
-            description.setText(l.getNom_lieux());
+            titre = (EditText) findViewById(R.id.titre);
+            titre.setText(l.getNom_lieux());
+        }
+
+        if(l.getCommentaire() != null || l.getCommentaire() != ""){
+            commentaire = (EditText) findViewById(R.id.commentaire);
+            commentaire.setText(l.getCommentaire());
         }
     }
 
     //Ajoute les commentaires aux curseurs
     protected void save(View v){
 
-        description = (EditText) findViewById(R.id.description);
+        titre = (EditText) findViewById(R.id.titre);
+        commentaire = (EditText) findViewById(R.id.commentaire);
         LieuxBDD lieuxBdd = new LieuxBDD(this);
-        Lieux lieux = new Lieux(description.getText().toString(),lon,lat,idVoyage);
+        Lieux lieux = new Lieux(titre.getText().toString(), commentaire.getText().toString(),lon,lat,idVoyage);
         lieuxBdd.open();
         lieuxBdd.updateLieux(Integer.parseInt(idLieux),lieux);
         lieuxBdd.close();

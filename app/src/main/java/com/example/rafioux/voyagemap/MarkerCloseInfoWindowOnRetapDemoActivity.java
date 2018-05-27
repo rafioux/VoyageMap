@@ -59,6 +59,9 @@ public class MarkerCloseInfoWindowOnRetapDemoActivity extends AppCompatActivity 
         Intent monItent = getIntent();
         idVoyage = monItent.getStringExtra("id");
 
+
+
+
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         new OnMapAndViewReadyListener(mapFragment, this);
     }
@@ -68,6 +71,12 @@ public class MarkerCloseInfoWindowOnRetapDemoActivity extends AppCompatActivity 
         mMap = map;
         mMap.getUiSettings().setZoomControlsEnabled(false);
 
+        mMap.addMarker(new MarkerOptions()
+                .position(new LatLng(0.0,0.0))
+                .title("Brisbane")
+                .draggable(true)
+                .snippet("Population: 2,074,200"));
+
         LieuxBDD lieuxBDD = new LieuxBDD(this);
         lieuxBDD.open();
         lieux = lieuxBDD.getLieuxWithIdVoyage(idVoyage);
@@ -75,11 +84,12 @@ public class MarkerCloseInfoWindowOnRetapDemoActivity extends AppCompatActivity 
         if(lieux != null) {
             for (int i = 0; i < lieux.size(); i++) {
                 mMap.addMarker(new MarkerOptions()
-                        .position(new LatLng(Double.parseDouble(lieux.get(i).getPointY_lieux()), Double.parseDouble(lieux.get(i).getPointX_lieux())))
-                        .title("" + lieux.get(i).getId_lieux())
+                        .position(new LatLng(Double.parseDouble(lieux.get(i).getLatitude()), Double.parseDouble(lieux.get(i).getLongitude())))
+                        .title(lieux.get(i).getNom_lieux())
                         .draggable(true)
                         .visible(true)
-                        .snippet(lieux.get(i).getNom_lieux().toString()));
+                        .snippet(lieux.get(i).getCommentaire()));
+
             }
         }
         lieuxBDD.close();
@@ -90,41 +100,6 @@ public class MarkerCloseInfoWindowOnRetapDemoActivity extends AppCompatActivity 
         map.setContentDescription("");
     }
 
-    private void addMarkersToMap() {
-      //on récupère l'ensemble des marqueurs pour le voyage
-
-
-        /*mMap.addMarker(new MarkerOptions()
-                .position(BRISBANE)
-                .title("Brisbane")
-               .draggable(true)
-               .snippet("Population: 2,074,200"));*/
-
-/*
-        mMap.addMarker(new MarkerOptions()
-                .position(SYDNEY)
-                .title("Sydney")
-                .draggable(true)
-                .snippet("Population: 4,627,300"));
-
-        mMap.addMarker(new MarkerOptions()
-                .position(MELBOURNE)
-                .title("Melbourne")
-                .draggable(true)
-                .snippet("Population: 4,137,400"));
-
-        mMap.addMarker(new MarkerOptions()
-                .position(PERTH)
-                .title("Perth")
-                .draggable(true)
-                .snippet("Population: 1,738,800"));
-
-        mMap.addMarker(new MarkerOptions()
-                .position(ADELAIDE)
-                .title("Adelaide")
-                .draggable(true)
-                .snippet("Population: 1,213,000"));*/
-    }
 
     @Override
     public void onMapClick(final LatLng point) {
@@ -133,7 +108,7 @@ public class MarkerCloseInfoWindowOnRetapDemoActivity extends AppCompatActivity 
         Double lat = point.latitude;
         Double lon = point.longitude;
 
-        Lieux l = new Lieux("", ""+lon,""+lat,idVoyage);
+        Lieux l = new Lieux("", "",""+lon,""+lat,idVoyage);
 
         //on enregistre le lieux dans la bdd
         LieuxBDD lieuxBDD = new LieuxBDD(this);
@@ -144,11 +119,12 @@ public class MarkerCloseInfoWindowOnRetapDemoActivity extends AppCompatActivity 
 
         mLieux = mMap.addMarker(new MarkerOptions()
                 .position(point)
-                .title("" + lieuxFromBdd.getNom_lieux())
+                .title(lieuxFromBdd.getNom_lieux())
                 .draggable(true)
-                .snippet(""));
+                .snippet(lieuxFromBdd.getCommentaire()));
 
         mLieux.setTag("" + lieuxFromBdd.getId_lieux());
+
     }
 
     @Override
