@@ -5,13 +5,11 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.Toast;
 
 public class addVoyage extends Activity {
 
     EditText mVoyage;
     EditText description;
-/* 1 */
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,10 +17,10 @@ public class addVoyage extends Activity {
         setContentView(R.layout.addvoyage);
     }
 
-    //Ajoute le Voyage dans la bdd
-    protected void add(View v){
-        mVoyage = (EditText) findViewById(R.id.titre);
-        description = (EditText) findViewById(R.id.description);
+    //Ajoute un voyage avec ses informations
+    public void add(View v){
+        mVoyage = findViewById(R.id.titre);
+        description = findViewById(R.id.description);
 
         VoyageBDD voyageBdd = new VoyageBDD(this);
         Voyage voyage = new Voyage(mVoyage.getText().toString(),description.getText().toString());

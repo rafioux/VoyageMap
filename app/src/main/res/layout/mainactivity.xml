@@ -14,26 +14,19 @@
         android:paddingTop="20dp"
         android:textSize="40sp"
         android:textStyle="bold"
-        android:text="Voyage Voyage !" />
+        android:text="@string/name_application"/>
 
     <ListView
         android:id="@+id/listView"
         android:layout_width="match_parent"
         android:layout_height="388dp"/>
 
-    <!--<Button
-        android:onClick="test"
-        android:layout_width="100dp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="right"
-        android:text="pour test"/>-->
-
     <Button
         android:onClick="add"
         android:layout_width="100dp"
         android:layout_height="wrap_content"
-        android:layout_gravity="right"
-        android:text="Ajouter" />
+        android:layout_gravity="end"
+        android:text="@string/ajouter_voyage" />
 
 
 

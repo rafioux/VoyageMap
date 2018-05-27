@@ -12,7 +12,7 @@
         android:gravity="center"
         android:paddingBottom="50dp"
         android:paddingTop="20dp"
-        android:text="Modifiez vos informations"
+        android:text="@string/modifier_informations"
         android:textSize="25sp"
         android:textStyle="bold" />
 
@@ -24,14 +24,14 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Titre : "
+            android:text="@string/titre"
             android:textStyle="bold"
             android:textSize="18sp"
             android:gravity="center"/>
 
         <EditText
             android:id="@+id/titre"
-            android:layout_width="fill_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"/>
     </LinearLayout>
@@ -44,14 +44,14 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Commentaire : "
+            android:text="@string/commentaire"
             android:textStyle="bold"
             android:textSize="18sp"
             android:gravity="center"/>
 
         <EditText
             android:id="@+id/commentaire"
-            android:layout_width="fill_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:inputType="textMultiLine"
             android:layout_weight="1"/>
@@ -63,7 +63,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="end|bottom"
         android:onClick="save"
-        android:text="save" />
+        android:text="@string/sauvegarder" />
 
 
 </LinearLayout>

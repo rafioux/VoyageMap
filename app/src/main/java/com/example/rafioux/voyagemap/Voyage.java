@@ -2,30 +2,27 @@ package com.example.rafioux.voyagemap;
 
 import android.content.ContentValues;
 
-/**
- * Created by Rafioux on 29/04/2018.
- */
-
 public class Voyage {
 
-
-    /* 1 */
     private int id_voyage;
     private String nom_voyage;
     private String voyage_Description;
 
     public Voyage(){}
 
+    //Constructeur
     public Voyage (ContentValues cv){
         this.nom_voyage = (String) cv.get("nom_voyage");
         this.voyage_Description = (String) cv.get("nom_Description");
     }
 
+    //Constructeur
     public Voyage(String nom_voyage, String nom_Description ){
         this.nom_voyage = nom_voyage;
         this.voyage_Description = nom_Description;
     }
 
+    //Getter et setter
     public int getId_voyage() {
         return id_voyage;
     }

@@ -5,4 +5,18 @@
     <string name="marker_close_info_window_on_retap_demo_label">Marker Close Info Window on Retap</string>
     <string name="title_activity_maps">bonjour</string>
 
+    <string name="modifier_informations">Modifiez vos informations</string>
+    <string name="titre">Titre : </string>
+    <string name="commentaire">Commentaire : </string>
+    <string name="sauvegarder">Save</string>
+
+    <string name="voyage">Ajoute un nouveau voyage</string>
+    <string name="description">Description : </string>
+    <string name="ajouter_voyage">Ajouter</string>
+
+
+    <string name="name_application">Voyage Voyage !</string>
+
+
+
 </resources>

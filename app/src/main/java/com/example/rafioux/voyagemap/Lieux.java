@@ -2,13 +2,9 @@ package com.example.rafioux.voyagemap;
 
 import android.content.ContentValues;
 
-/**
- * Created by Rafioux on 29/04/2018.
- */
-
 public class Lieux {
 
-    /* 1 */
+    //champs de la base Lieux
     private int id_lieux;
     private String nom_lieux;
     private String commentaire;
@@ -16,19 +12,16 @@ public class Lieux {
     private String latitude;
     private String id_Lieux_Voyage;
 
-
-    public Lieux(){
-    }
-
+    //Constructeur
     public Lieux (ContentValues cv){
         this.nom_lieux = (String) cv.get("nom_lieux");
         this.commentaire = (String) cv.get("commentaire");
         this.longitude = (String) cv.get("longitude");
         this.latitude = (String) cv.get("latitude");
         this.id_Lieux_Voyage = (String) cv.get("id_Lieux_Voyage");
-
     }
 
+    //Constructeur
     public Lieux(String nom_lieux, String commentaire, String longitude, String latitude, String id_Lieux_Voyage ){
         this.nom_lieux = nom_lieux;
         this.commentaire = commentaire;
@@ -37,6 +30,11 @@ public class Lieux {
         this.id_Lieux_Voyage = id_Lieux_Voyage;
     }
 
+    //Constructeur vide
+    public Lieux(){
+    }
+
+    //getter et setter
     public int getId_lieux() {
         return id_lieux;
     }

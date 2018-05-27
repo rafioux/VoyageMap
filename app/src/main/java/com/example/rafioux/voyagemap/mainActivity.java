@@ -1,26 +1,18 @@
 package com.example.rafioux.voyagemap;
 
-
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.ListAdapter;
 import android.widget.ListView;
-import android.widget.Toast;
-
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class mainActivity extends AppCompatActivity{
 
     ListView mListView;
     ArrayAdapter<String> adapter;
-    private ArrayList<Voyage> voyages = new ArrayList<Voyage>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,7 +21,6 @@ public class mainActivity extends AppCompatActivity{
         jeu();
     }
 
-
     //récupération des résultats
     public void onResume(){
         super.onResume();
@@ -37,14 +28,14 @@ public class mainActivity extends AppCompatActivity{
     }
 
     protected void jeu(){
-        //Création d'une instance de ma classe VoyageBDD et
+        //recupere tous les voyages
         VoyageBDD voyageBdd = new VoyageBDD(this);
         voyageBdd.open();
-        voyages = voyageBdd.getVoyageAll();
-        adapter = new ArrayAdapter<String>(this, android.R.layout.list_content);
+        ArrayList<Voyage> voyages = voyageBdd.getVoyageAll();
+        adapter = new ArrayAdapter<>(this, android.R.layout.list_content);
         voyageBdd.close();
 
-
+        //convertit la liste en tableau
         String[] tab;
         if (voyages != null) {
             tab = new String[voyages.size()];
@@ -55,11 +46,12 @@ public class mainActivity extends AppCompatActivity{
                 tab[i] = v + ", " + d;
             }
 
-            mListView = (ListView) findViewById(R.id.listView);
-            adapter = new ArrayAdapter<String>(mainActivity.this, android.R.layout.simple_list_item_1, tab);
+            mListView = findViewById(R.id.listView);
+            adapter = new ArrayAdapter<>(mainActivity.this, android.R.layout.simple_list_item_1, tab);
             mListView.setAdapter(adapter);
         }
 
+        //si la liste est nn vide, on la rend cliquable
         if(mListView != null) {
             mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
@@ -72,9 +64,8 @@ public class mainActivity extends AppCompatActivity{
         }
     }
 
-
-    //Ajouter un élément de la liste
-    protected void add(View v){
+    //Ajouter un élément a la liste
+    public void add(View v){
         Intent monIntent = new Intent( this,addVoyage.class);
         startActivityForResult(monIntent,1);
     }

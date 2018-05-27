@@ -19,24 +19,16 @@ package com.example.rafioux.voyagemap;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.widget.EditText;
-import android.widget.Toast;
-
-import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.GoogleMap.OnMapClickListener;
 import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-
 import java.util.ArrayList;
 
-/**
- * This shows how to close the info window when the currently selected marker is re-tapped.
- */
+
 public class MarkerCloseInfoWindowOnRetapDemoActivity extends AppCompatActivity implements
         OnMarkerClickListener,
         OnMapClickListener,
@@ -47,7 +39,6 @@ public class MarkerCloseInfoWindowOnRetapDemoActivity extends AppCompatActivity 
 
     private GoogleMap mMap = null;
     private Marker mSelectedMarker;
-    private Marker mLieux;
 
 
     @Override
@@ -59,28 +50,31 @@ public class MarkerCloseInfoWindowOnRetapDemoActivity extends AppCompatActivity 
         Intent monItent = getIntent();
         idVoyage = monItent.getStringExtra("id");
 
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
+        new OnMapAndViewReadyListener(mapFragment, this);
+    }
 
 
+    //récupération des résultats
+    public void onResume(){
+        super.onResume();
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         new OnMapAndViewReadyListener(mapFragment, this);
     }
 
+    //A l'ouverture
     @Override
     public void onMapReady(GoogleMap map) {
         mMap = map;
         mMap.getUiSettings().setZoomControlsEnabled(false);
 
-        mMap.addMarker(new MarkerOptions()
-                .position(new LatLng(0.0,0.0))
-                .title("Brisbane")
-                .draggable(true)
-                .snippet("Population: 2,074,200"));
-
+        //recuperation des lieux associes au voyage
         LieuxBDD lieuxBDD = new LieuxBDD(this);
         lieuxBDD.open();
         lieux = lieuxBDD.getLieuxWithIdVoyage(idVoyage);
 
+        //ajout des marqueurs
         if(lieux != null) {
             for (int i = 0; i < lieux.size(); i++) {
                 mMap.addMarker(new MarkerOptions()
@@ -94,17 +88,17 @@ public class MarkerCloseInfoWindowOnRetapDemoActivity extends AppCompatActivity 
         }
         lieuxBDD.close();
 
-
         mMap.setOnMarkerClickListener(this);
         mMap.setOnMapClickListener(this);
         map.setContentDescription("");
     }
 
-
+    //Lors d'un clique sur la map
     @Override
     public void onMapClick(final LatLng point) {
         mSelectedMarker = null;
 
+        //position du clic
         Double lat = point.latitude;
         Double lon = point.longitude;
 
@@ -117,20 +111,20 @@ public class MarkerCloseInfoWindowOnRetapDemoActivity extends AppCompatActivity 
         Lieux lieuxFromBdd = lieuxBDD.getLieuxWithLatLon(lat,lon);
         lieuxBDD.close();
 
-        mLieux = mMap.addMarker(new MarkerOptions()
+        //ajout du marqueur
+        Marker mLieux = mMap.addMarker(new MarkerOptions()
                 .position(point)
                 .title(lieuxFromBdd.getNom_lieux())
                 .draggable(true)
                 .snippet(lieuxFromBdd.getCommentaire()));
 
-        mLieux.setTag("" + lieuxFromBdd.getId_lieux());
-
+        mLieux.setTag("" + lieuxFromBdd.getId_lieux());//sauvegarde de l'id du lieu
     }
 
     @Override
     public boolean onMarkerClick(final Marker marker) {
-        if (marker.equals(mSelectedMarker)) {
-
+        if (marker.equals(mSelectedMarker)) {//Double clic sur un marqueur
+            //recuperation de la position
             LatLng point = marker.getPosition();
             String lat = "" + point.latitude;
             String lon = "" + point.longitude;
