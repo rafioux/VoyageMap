@@ -22,13 +22,15 @@ public class addVoyage extends Activity {
         mVoyage = findViewById(R.id.titre);
         description = findViewById(R.id.description);
 
-        VoyageBDD voyageBdd = new VoyageBDD(this);
-        Voyage voyage = new Voyage(mVoyage.getText().toString(),description.getText().toString());
+        if(!mVoyage.getText().toString().equals("") || !description.getText().toString().equals("")) {
+            VoyageBDD voyageBdd = new VoyageBDD(this);
+            Voyage voyage = new Voyage(mVoyage.getText().toString(), description.getText().toString());
 
-        voyageBdd.open();
-        voyageBdd.insertVoyage(voyage);
-        voyageBdd.close();
+            voyageBdd.open();
+            voyageBdd.insertVoyage(voyage);
+            voyageBdd.close();
 
-        this.finish();
+            this.finish();
+        }
     }
 }

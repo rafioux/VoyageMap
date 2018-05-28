@@ -119,6 +119,13 @@ public class MarkerCloseInfoWindowOnRetapDemoActivity extends AppCompatActivity 
                 .snippet(lieuxFromBdd.getCommentaire()));
 
         mLieux.setTag("" + lieuxFromBdd.getId_lieux());//sauvegarde de l'id du lieu
+
+        Intent intentNom = new Intent(this, addDescription.class);
+        intentNom.putExtra("idVoyage","" + idVoyage);
+        intentNom.putExtra("idLieux","" + lieuxFromBdd.getId_lieux());
+        intentNom.putExtra("lat","" + lat);
+        intentNom.putExtra("lon","" + lon);
+        startActivityForResult(intentNom,1);
     }
 
     @Override
