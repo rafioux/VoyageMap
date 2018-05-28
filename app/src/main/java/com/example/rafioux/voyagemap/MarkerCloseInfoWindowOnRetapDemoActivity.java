@@ -120,6 +120,7 @@ public class MarkerCloseInfoWindowOnRetapDemoActivity extends AppCompatActivity 
 
         mLieux.setTag("" + lieuxFromBdd.getId_lieux());//sauvegarde de l'id du lieu
 
+        //Ajout du titre et de la description
         Intent intentNom = new Intent(this, addDescription.class);
         intentNom.putExtra("idVoyage","" + idVoyage);
         intentNom.putExtra("idLieux","" + lieuxFromBdd.getId_lieux());
