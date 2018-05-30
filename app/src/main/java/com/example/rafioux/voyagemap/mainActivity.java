@@ -18,21 +18,20 @@ public class mainActivity extends AppCompatActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.mainactivity);
-        jeu();
+        afficher();
     }
 
     //récupération des résultats
     public void onResume(){
         super.onResume();
-        jeu();
+        afficher();
     }
 
-    protected void jeu(){
+    protected void afficher(){
         //recupere tous les voyages
         VoyageBDD voyageBdd = new VoyageBDD(this);
         voyageBdd.open();
         ArrayList<Voyage> voyages = voyageBdd.getVoyageAll();
-        adapter = new ArrayAdapter<>(this, android.R.layout.list_content);
         voyageBdd.close();
 
         //convertit la liste en tableau
