@@ -14,17 +14,22 @@ public class mainActivity extends AppCompatActivity{
     ListView mListView;
     ArrayAdapter<String> adapter;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.mainactivity);
-        afficher();
-    }
+        @Override
+        protected void onCreate(Bundle savedInstanceState) {
+            super.onCreate(savedInstanceState);
+            setContentView(R.layout.mainactivity);
+            afficher();
+        }
 
     //récupération des résultats
     public void onResume(){
         super.onResume();
         afficher();
+    }
+
+    public void onPause() {
+
+        super.onPause();
     }
 
     protected void afficher(){
@@ -68,4 +73,13 @@ public class mainActivity extends AppCompatActivity{
         Intent monIntent = new Intent( this,addVoyage.class);
         startActivityForResult(monIntent,1);
     }
+
+
+    /*public void onSaveInstanceState(Bundle bundle) {
+        super.onSaveInstanceState(bundle);
+    }
+
+    public void onRestoreInstanceState(Bundle bundle){
+
+    }*/
 }

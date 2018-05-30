@@ -14,6 +14,7 @@ public class addDescription extends Activity {
     String idLieux;
     String lon;
     String lat;
+    String titre1, commentaire1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,15 +35,26 @@ public class addDescription extends Activity {
         lieuxBdd.close();
 
         //si il existe deja des informations, on les met
-        if(l.getNom_lieux() != null || !l.getNom_lieux().equals("")){
+
+    }
+
+
+    public void onResume(){
+        super.onResume();
+
+        if(titre != null){
             titre = findViewById(R.id.titre);
-            titre.setText(l.getNom_lieux());
+            titre.setText(titre1);
         }
 
-        if(l.getCommentaire() != null || !l.getCommentaire().equals("")){
+        if(commentaire  != null ){
             commentaire = findViewById(R.id.commentaire);
-            commentaire.setText(l.getCommentaire());
+            commentaire.setText(commentaire1);
         }
+    }
+
+    public void onPause(){
+        super.onPause();
     }
 
     //sauvegarde les informations
@@ -58,4 +70,18 @@ public class addDescription extends Activity {
 
         this.finish();
     }
+
+    public void onSaveInstanceState(Bundle data) {
+        data.putString("val1", String.valueOf(titre1));
+        data.putString("val2", String.valueOf(commentaire1));
+        super.onSaveInstanceState(data);
+    }
+
+    public void onRestoreInstanceState(Bundle data){
+        super.onRestoreInstanceState(data);
+        titre1 = data.getString("val1");
+        commentaire1 = data.getString("val2");
+    }
+
+
 }
