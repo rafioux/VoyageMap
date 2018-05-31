@@ -38,6 +38,7 @@ public class addVoyage extends Activity {
 
         super.onPause();
     }
+
     //Ajoute un voyage avec ses informations
     public void add(View v){
         mVoyage = findViewById(R.id.titre);
