@@ -159,5 +159,5 @@ public class MarkerCloseInfoWindowOnRetapDemoActivity extends AppCompatActivity 
         return false;
     }
 
-    
+     
 }
