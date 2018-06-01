@@ -47,7 +47,11 @@ public class mainActivity extends AppCompatActivity{
                 Voyage voyage = voyages.get(i);
                 String v = voyage.getNom_voyage();
                 String d = voyage.getDescription();
-                tab[i] = v + ", " + d;
+                if(!d.equals("")){
+                    tab[i] = v + ", " + d;
+                }else{
+                    tab[i] = v;
+                }
             }
 
             mListView = findViewById(R.id.listView);

@@ -38,6 +38,7 @@ public class MarkerCloseInfoWindowOnRetapDemoActivity extends AppCompatActivity 
 
     private GoogleMap mMap = null;
     private Marker mSelectedMarker;
+    private Marker mLieux;
 
 
     @Override
@@ -66,6 +67,7 @@ public class MarkerCloseInfoWindowOnRetapDemoActivity extends AppCompatActivity 
     @Override
     public void onMapReady(GoogleMap map) {
         mMap = map;
+        mMap.clear(); //reinitialise la map
         mMap.getUiSettings().setZoomControlsEnabled(false);
 
         //recuperation des lieux associes au voyage
@@ -76,13 +78,14 @@ public class MarkerCloseInfoWindowOnRetapDemoActivity extends AppCompatActivity 
         //ajout des marqueurs
         if(lieux != null) {
             for (int i = 0; i < lieux.size(); i++) {
-                mMap.addMarker(new MarkerOptions()
+                mLieux = mMap.addMarker(new MarkerOptions()
                         .position(new LatLng(Double.parseDouble(lieux.get(i).getLatitude()), Double.parseDouble(lieux.get(i).getLongitude())))
                         .title(lieux.get(i).getNom_lieux())
                         .draggable(true)
                         .visible(true)
                         .snippet(lieux.get(i).getCommentaire()));
 
+                mLieux.setTag("" + lieux.get(i).getId_lieux());//sauvegarde de l'id du lieu
             }
         }
         lieuxBDD.close();
@@ -114,7 +117,7 @@ public class MarkerCloseInfoWindowOnRetapDemoActivity extends AppCompatActivity 
 
 
         //ajout du marqueur
-        Marker mLieux = mMap.addMarker(new MarkerOptions()
+        mLieux = mMap.addMarker(new MarkerOptions()
                 .position(point)
                 .title(lieuxFromBdd.getNom_lieux())
                 .draggable(true)
@@ -131,9 +134,6 @@ public class MarkerCloseInfoWindowOnRetapDemoActivity extends AppCompatActivity 
         intentNom.putExtra("lat","" + lat);
         intentNom.putExtra("lon","" + lon);
         startActivityForResult(intentNom,1);
-
-
-
     }
 
     @Override

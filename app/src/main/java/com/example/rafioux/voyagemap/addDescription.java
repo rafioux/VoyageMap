@@ -21,8 +21,6 @@ public class addDescription extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.adddescription);
 
-        //recuperation des informations
-
         ajout();
     }
 
