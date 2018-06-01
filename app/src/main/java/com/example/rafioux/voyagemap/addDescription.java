@@ -41,7 +41,7 @@ public class addDescription extends Activity {
 
     //fonction d'ajout
     public void ajout(){
-     Intent monItent = getIntent();
+        Intent monItent = getIntent();
         idVoyage = monItent.getStringExtra("idVoyage");
         idLieux = monItent.getStringExtra("idLieux");
         lat = monItent.getStringExtra("lat");
@@ -74,6 +74,16 @@ public class addDescription extends Activity {
         Lieux lieux = new Lieux(titre.getText().toString(), commentaire.getText().toString(),lon,lat,idVoyage);
         lieuxBdd.open();
         lieuxBdd.updateLieux(Integer.parseInt(idLieux),lieux);
+        lieuxBdd.close();
+
+        this.finish();
+    }
+
+    //supprime le lieu
+    public void delete(View v){
+        LieuxBDD lieuxBdd = new LieuxBDD(this);
+        lieuxBdd.open();
+        lieuxBdd.removeLieuWithID(Integer.parseInt(idLieux));
         lieuxBdd.close();
 
         this.finish();

@@ -30,12 +30,10 @@ public class addVoyage extends Activity {
             description = findViewById(R.id.commentaire);
             description.setText(commentaire1);
         }
-
     }
 
 
     public void onPause() {
-
         super.onPause();
     }
 

@@ -60,6 +60,11 @@ public class LieuxBDD {
         mDatabase.update(Database.TABLE_LIEUX,  values, Database.COL_ID_LIEUX + " = " +id, null);
     }
 
+    //Supprime un lieu grace a son id
+    public int removeLieuWithID(int id){
+        return mDatabase.delete(Database.TABLE_LIEUX, Database.COL_ID_LIEUX + " = " +id, null);
+    }
+
     //Trouve un lieu grace a ses coordonnees
     public Lieux getLieuxWithLatLon(Double lat, Double lon){
         Cursor c = mDatabase.query(Database.TABLE_LIEUX, new String[] {Database.COL_ID_LIEUX, Database.COL_NOM_lIEUX, Database.COL_COMMENTAIRE, Database.COL_LONGITUDE, Database.COL_LATITUDE, Database.COL_ID_VOYAGE_LIEUX}, Database.COL_LONGITUDE + " = \"" + lon +"\" and " + Database.COL_LATITUDE + " = \"" + lat +"\"", null, null, null, null);

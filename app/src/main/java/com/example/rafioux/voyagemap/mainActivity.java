@@ -28,7 +28,6 @@ public class mainActivity extends AppCompatActivity{
     }
 
     public void onPause() {
-
         super.onPause();
     }
 
@@ -79,11 +78,11 @@ public class mainActivity extends AppCompatActivity{
     }
 
 
-    /*public void onSaveInstanceState(Bundle bundle) {
+    public void onSaveInstanceState(Bundle bundle) {
         super.onSaveInstanceState(bundle);
     }
 
     public void onRestoreInstanceState(Bundle bundle){
 
-    }*/
+    }
 }

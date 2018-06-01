@@ -8,15 +8,12 @@
     <string name="modifier_informations">Modifiez vos informations</string>
     <string name="titre">Titre : </string>
     <string name="commentaire">Commentaire : </string>
-    <string name="sauvegarder">Save</string>
+    <string name="sauvegarder">Sauvegarder</string>
 
     <string name="voyage">Ajoute un nouveau voyage</string>
     <string name="description">Description : </string>
+    <string name="delete">Supprimer</string>
     <string name="ajouter_voyage">Ajouter</string>
 
-
     <string name="name_application">Voyage Voyage !</string>
-
-
-
 </resources>
