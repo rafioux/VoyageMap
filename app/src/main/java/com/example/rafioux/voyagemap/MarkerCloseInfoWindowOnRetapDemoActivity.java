@@ -144,7 +144,6 @@ public class MarkerCloseInfoWindowOnRetapDemoActivity extends AppCompatActivity 
             String lat = "" + point.latitude;
             String lon = "" + point.longitude;
 
-            android.widget.Toast.makeText(this,"blabla", android.widget.Toast.LENGTH_SHORT).show();
             Intent intentNom = new Intent(this, addDescription.class);
             intentNom.putExtra("idVoyage","" + idVoyage);
             intentNom.putExtra("idLieux","" + marker.getTag());
